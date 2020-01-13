@@ -17,5 +17,13 @@ constructor() {
 
     };
 }    
+
+markerContent():string{
+    return `
+    <div>
+    <h1>the company name is ${this.companyName}</h1>
+    <h3>catch phrase is ${this.catchPhrase}</h3>
+    </div>`;
+}
 }
 

@@ -85120,6 +85120,10 @@ function () {
     };
   }
 
+  User.prototype.markerContent = function () {
+    return "user name is " + this.name;
+  };
+
   return User;
 }();
 
@@ -85151,6 +85155,10 @@ function () {
     };
   }
 
+  Company.prototype.markerContent = function () {
+    return "\n    <div>\n    <h1>the company name is " + this.companyName + "</h1>\n    <h3>catch phrase is " + this.catchPhrase + "</h3>\n    </div>";
+  };
+
   return Company;
 }();
 
@@ -85167,7 +85175,7 @@ var CustomMap =
 function () {
   function CustomMap(divId) {
     this.googleMap = new google.maps.Map(document.getElementById(divId), {
-      zoom: 3,
+      zoom: 1,
       center: {
         lat: 0,
         lng: 0
@@ -85176,12 +85184,20 @@ function () {
   }
 
   CustomMap.prototype.addMarker = function (mappable) {
-    new google.maps.Marker({
+    var _this = this;
+
+    var maker = new google.maps.Marker({
       map: this.googleMap,
       position: {
         lat: mappable.location.lat,
         lng: mappable.location.lng
       }
+    });
+    maker.addListener('click', function () {
+      var inforwindow = new google.maps.InfoWindow({
+        content: mappable.markerContent()
+      });
+      inforwindow.open(_this.googleMap, maker);
     });
   };
 
@@ -85209,7 +85225,11 @@ var grimsby = {
   location: {
     lat: 53.5675,
     lng: 0.0808
-  }
+  },
+  markerContent: function markerContent() {
+    return "\n        <div>\n        <h1>Goldbuild Computing Solutions Ltd</h1>\n        <h2>Sibsey Court, Grimsby</h2>\n        </div>";
+  },
+  color: 'green'
 };
 customMap.addMarker(user);
 customMap.addMarker(company);
@@ -85243,7 +85263,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65485" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49840" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
